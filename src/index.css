@@ -1,92 +1,40 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Quicksand:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..700;1,300..700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
 :root {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-headline: "Quicksand", sans-serif;
+  --font-headline: "Jost", ui-sans-serif, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  --color-primary: #2d685c;
-  --color-primary-container: #b4f1e1;
-  --color-on-primary-container: #357063;
-  --color-secondary: #884d54;
-  --color-secondary-container: #feb2b9; /* Soft pink pasteled */
-  --color-on-secondary-container: #7a4248;
-  --color-tertiary: #635787;
-  --color-tertiary-container: #eae0ff; /* Soft lavender pasteled */
-  --color-on-tertiary-container: #6b5e8f;
+  --color-primary: #0047ab;
+  --color-primary-container: #e3ebf9;
+  --color-on-primary-container: #0047ab;
 
-  --color-charcoal: #2d3436;
-  --color-bg-soft: #f4fafd;
+  --color-charcoal: #23262a;
+  --color-bg-soft: #fafaf8;
   --color-surface-card: #ffffff;
 }
 
-/* Neo-Brutalist shadow styling utilities */
-.hard-shadow {
-  box-shadow: 4px 4px 0px 0px rgba(45, 104, 92, 1);
-}
-
-.hard-shadow-sm {
-  box-shadow: 2px 2px 0px 0px rgba(45, 104, 92, 1);
-}
-
-.hard-shadow-secondary {
-  box-shadow: 4px 4px 0px 0px rgba(136, 77, 84, 1);
-}
-
-.hard-shadow-tertiary {
-  box-shadow: 4px 4px 0px 0px rgba(99, 87, 135, 1);
-}
-
-.hard-shadow-lavender {
-  box-shadow: 4px 4px 0px 0px rgba(107, 94, 143, 0.4);
-}
-
-.hard-shadow-pink {
-  box-shadow: 4px 4px 0px 0px rgba(136, 77, 84, 0.4);
-}
-
-.bouncy-hover {
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.bouncy-hover:hover {
-  transform: translate(-3px, -3px);
-}
-
-.bouncy-hover-sm {
-  transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.bouncy-hover-sm:hover {
-  transform: translate(-1.5px, -1.5px);
-}
-
-.active-nav-shadow {
-  box-shadow: 4px 4px 0px 0px rgba(45, 104, 92, 1);
-}
-
-/* Smooth custom scrollbars for cozy feel */
+/* Smooth minimal scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #f4fafd;
+  background: #fafaf8;
 }
 ::-webkit-scrollbar-thumb {
-  background: #b4f1e1;
+  background: #d6d5d0;
   border-radius: 9999px;
-  border: 2px solid #f4fafd;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #2d685c;
+  background: #23262a;
 }
 
 /* Fallback utility mappings for CSS-variable-based theme tokens
    These mirror the project's semantic token names (used as Tailwind-like
    utility classes) and map them to the --color- variables defined above.
-   This ensures classes like `bg-tertiary-container` or `text-on-tertiary-container`
+   This ensures classes like `bg-primary-container` or `text-on-primary-container`
    work even if Tailwind doesn't generate them. */
 
 .bg-primary {
@@ -100,32 +48,6 @@
 }
 .text-primary {
   color: var(--color-primary);
-}
-
-.bg-secondary {
-  background-color: var(--color-secondary);
-}
-.bg-secondary-container {
-  background-color: var(--color-secondary-container);
-}
-.text-on-secondary-container {
-  color: var(--color-on-secondary-container);
-}
-.text-secondary {
-  color: var(--color-secondary);
-}
-
-.bg-tertiary {
-  background-color: var(--color-tertiary);
-}
-.bg-tertiary-container {
-  background-color: var(--color-tertiary-container);
-}
-.text-on-tertiary-container {
-  color: var(--color-on-tertiary-container);
-}
-.text-tertiary {
-  color: var(--color-tertiary);
 }
 
 .bg-bg-soft {
@@ -145,7 +67,6 @@
   color: var(--color-charcoal);
 }
 
-/* Charcoal background and readable text utility */
 .bg-charcoal {
   background-color: var(--color-charcoal);
 }
@@ -153,24 +74,11 @@
   color: #ffffff;
 }
 
-/* Border utilities mapped to semantic color tokens */
 .border-primary {
   border-color: var(--color-primary);
 }
 .border-primary-container {
   border-color: var(--color-primary-container);
-}
-.border-secondary {
-  border-color: var(--color-secondary);
-}
-.border-secondary-container {
-  border-color: var(--color-secondary-container);
-}
-.border-tertiary {
-  border-color: var(--color-tertiary);
-}
-.border-tertiary-container {
-  border-color: var(--color-tertiary-container);
 }
 .border-bg-soft {
   border-color: var(--color-bg-soft);
@@ -187,14 +95,4 @@
 }
 .font-mono {
   font-family: var(--font-mono);
-}
-
-/* Ensure utility rules override generic defaults where necessary */
-.bg-primary,
-.bg-primary-container,
-.bg-secondary-container,
-.bg-tertiary-container,
-.bg-bg-soft,
-.bg-surface-card {
-  background-repeat: no-repeat;
 }

@@ -4,7 +4,7 @@
  */
 
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, AlertTriangle } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 interface NotFoundProps {
   title?: string;
@@ -16,19 +16,16 @@ export function NotFound({
   message = "The page you're looking for doesn't exist or has been moved.",
 }: NotFoundProps) {
   return (
-    <div className="text-center py-16 space-y-6 max-w-md mx-auto">
-      <div className="inline-flex p-4 bg-secondary-container text-secondary rounded-full border-2 border-charcoal">
-        <AlertTriangle className="w-10 h-10 animate-bounce" />
-      </div>
-      <h1 className="font-headline text-3xl font-black text-charcoal">
+    <div className="text-center py-24 space-y-5 max-w-md mx-auto">
+      <h1 className="font-headline text-2xl font-medium text-charcoal">
         {title}
       </h1>
-      <p className="font-sans text-sm text-charcoal/70">{message}</p>
+      <p className="font-sans text-sm text-charcoal/60">{message}</p>
       <Link
         to="/"
-        className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary text-white border-2 border-charcoal rounded-lg font-headline font-bold hover:bg-primary/95 transition-all outline-none"
+        className="inline-flex items-center gap-2 text-sm text-charcoal border-b border-charcoal pb-0.5 hover:text-primary hover:border-primary transition-colors"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
         Back to Home
       </Link>
     </div>

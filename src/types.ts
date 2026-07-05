@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export type PostCategory = "Essays" | "Tutorials" | "Snippets";
+export type PostCategory = string;
 
 export interface Author {
   name: string;
