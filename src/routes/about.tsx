@@ -61,7 +61,7 @@ const facts: { title: string; detail: ReactNode }[] = [
     title: "Who I am",
     detail: (
       <div className="space-y-3 max-w-xl">
-        <p className="text-charcoal">
+        <p className="text-charcoal underline">
           Front-end Engineer & Writer{" "}
           <em className="italic text-charcoal/60">
             (not professional, just my hobby)
@@ -71,16 +71,16 @@ const facts: { title: string; detail: ReactNode }[] = [
           Beyond building screens, I love exploring the diverse layers of the
           world.
         </p>
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           <p>
-            <span className="font-mono text-[10px] uppercase tracking-wider text-primary mr-2">
+            <span className="font-mono text-[12px] uppercase tracking-wider text-primary mr-2">
               Input
             </span>
             Eclectic movies, reading & transcribing, and solo cultural
             wanderings
           </p>
           <p>
-            <span className="font-mono text-[10px] uppercase tracking-wider text-primary mr-2">
+            <span className="font-mono text-[12px] uppercase tracking-wider text-primary mr-2">
               Output
             </span>
             Conversations with loved ones, walking up Namsan, and practicing
