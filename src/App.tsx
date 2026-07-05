@@ -9,6 +9,7 @@ import { Route as indexRoute } from './routes/index';
 import { Route as exploreRoute } from './routes/explore';
 import { Route as aboutRoute } from './routes/about';
 import { Route as postIdRoute } from './routes/posts.$postId';
+import { NotFound } from './NotFound';
 
 // Programmatically assemble the routes to guarantee seamless Vite compilation
 const routeTree = rootRoute.addChildren([
@@ -20,7 +21,8 @@ const routeTree = rootRoute.addChildren([
 
 // Initialize the TanStack router
 export const router = createRouter({
-  routeTree
+  routeTree,
+  defaultNotFoundComponent: () => <NotFound />
 });
 
 // Configure module type registration for type-safe route parameters

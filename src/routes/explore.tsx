@@ -298,8 +298,8 @@ function ExplorePage() {
                 <div className="space-y-2">
                   <h3 className="font-headline font-black text-xl md:text-2xl text-charcoal group-hover:text-primary transition-colors leading-tight">
                     <Link
-                      to={"/posts/$postId" as any}
-                      params={{ postId: post.id } as any}
+                      to="/posts/$postId"
+                      params={{ postId: post.id }}
                     >
                       {post.title}
                     </Link>

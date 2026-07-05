@@ -13,11 +13,7 @@ import {
   Clock,
   Heart,
   ArrowRight,
-  CornerDownRight,
-  Check,
-  Send,
 } from "lucide-react";
-import { useState, FormEvent } from "react";
 import type { Post } from "../types";
 import { motion } from "motion/react";
 
@@ -28,9 +24,6 @@ export const Route = createRoute({
 });
 
 function HomePage() {
-  const [newsEmail, setNewsEmail] = useState("");
-  const [success, setSuccess] = useState(false);
-
   // Featured post is "whimsy-components" (latest published)
   const featuredPost =
     mockPosts.find((p: Post) => p.id === "whimsy-components") || mockPosts[0];
@@ -39,17 +32,6 @@ function HomePage() {
   const recentPosts = mockPosts
     .filter((p: Post) => p.id !== featuredPost.id)
     .slice(0, 3);
-
-  const handleNewsletterSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (newsEmail.trim()) {
-      setSuccess(true);
-      setTimeout(() => {
-        setSuccess(false);
-        setNewsEmail("");
-      }, 3000);
-    }
-  };
 
   return (
     <div className="space-y-12">
@@ -156,8 +138,8 @@ function HomePage() {
 
               <h3 className="font-headline text-2xl md:text-3xl font-bold text-charcoal leading-snug group-hover:text-primary transition-colors">
                 <Link
-                  to={"/posts/$postId" as any}
-                  params={{ postId: featuredPost.id } as any}
+                  to="/posts/$postId"
+                  params={{ postId: featuredPost.id }}
                 >
                   {featuredPost.title}
                 </Link>
@@ -189,8 +171,8 @@ function HomePage() {
 
               {/* View details CTA button */}
               <Link
-                to={"/posts/$postId" as any}
-                params={{ postId: featuredPost.id } as any}
+                to="/posts/$postId"
+                params={{ postId: featuredPost.id }}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-container text-primary border-2 border-charcoal rounded-lg font-headline font-bold text-sm hover:bg-primary hover:text-white transition-all hover:translate-x-[-1px] active:translate-x-[1px]"
               >
                 Read details
@@ -254,8 +236,8 @@ function HomePage() {
 
                   <h3 className="font-headline font-bold text-lg md:text-xl text-charcoal group-hover:text-primary transition-colors leading-snug">
                     <Link
-                      to={"/posts/$postId" as any}
-                      params={{ postId: post.id } as any}
+                      to="/posts/$postId"
+                      params={{ postId: post.id }}
                     >
                       {post.title}
                     </Link>
@@ -274,8 +256,8 @@ function HomePage() {
                 </span>
 
                 <Link
-                  to={"/posts/$postId" as any}
-                  params={{ postId: post.id } as any}
+                  to="/posts/$postId"
+                  params={{ postId: post.id }}
                   className="w-8 h-8 rounded-full border-2 border-charcoal flex items-center justify-center hover:bg-secondary-container hover:text-on-secondary-container active:translate-x-[1px] active:translate-y-[1px] transition-all"
                   title="Post details"
                 >
@@ -284,60 +266,6 @@ function HomePage() {
               </div>
             </motion.article>
           ))}
-        </div>
-      </section>
-
-      {/* 4. Newsletter Card */}
-      <section className="bg-tertiary-container text-on-tertiary-container border-[3px] border-charcoal rounded-2xl p-6 md:p-8 hard-shadow-tertiary relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-24 h-24 bg-surface-card rounded-bl-full border-b-[3px] border-l-[3px] border-charcoal opacity-15 pointer-events-none" />
-
-        <div className="max-w-xl space-y-4">
-          <div className="inline-flex items-center gap-1 text-sm font-mono uppercase font-bold tracking-wider text-tertiary">
-            <CornerDownRight className="w-4 h-4" />
-            Newsletter
-          </div>
-          <h2 className="font-headline text-2xl md:text-3xl font-black">
-            Never miss new posts and essays.
-          </h2>
-          <p className="font-sans text-sm md:text-base leading-relaxed opacity-90">
-            I write deep articles about frontend techniques, clean layouts,
-            custom state management tools, and other delightful developer design
-            patterns.
-          </p>
-
-          <div className="pt-2">
-            {success ? (
-              <motion.div
-                initial={{ scale: 0.95, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="bg-surface-card text-primary border-2 border-charcoal p-3.5 rounded-lg flex items-center gap-2 font-headline font-bold shadow-sm"
-              >
-                <Check className="w-5 h-5 text-emerald-600 font-bold" />
-                Thanks — check your inbox soon for updates.
-              </motion.div>
-            ) : (
-              <form
-                onSubmit={handleNewsletterSubmit}
-                className="flex flex-col sm:flex-row gap-3"
-              >
-                <input
-                  type="email"
-                  required
-                  placeholder="you@example.com"
-                  value={newsEmail}
-                  onChange={(e) => setNewsEmail(e.target.value)}
-                  className="flex-grow bg-white border-2 border-charcoal text-charcoal rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/25 font-sans shadow-inner text-sm"
-                />
-                <button
-                  type="submit"
-                  className="bg-charcoal text-white font-headline font-bold px-6 py-2.5 rounded-lg border-2 border-charcoal hover:hard-shadow-charcoal hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_0px_rgba(99,87,135,1)] hover:bg-charcoal/90 active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <span>Subscribe</span>
-                  <Send className="w-4 h-4" />
-                </button>
-              </form>
-            )}
-          </div>
         </div>
       </section>
     </div>

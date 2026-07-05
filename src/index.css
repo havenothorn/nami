@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Quicksand:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
@@ -14,28 +15,6 @@
   --color-on-secondary-container: #7a4248;
   --color-tertiary: #635787;
   --color-tertiary-container: #eae0ff; /* Soft lavender pasteled */
-  --color-on-tertiary-container: #6b5e8f;
-
-  --color-charcoal: #2d3436;
-  --color-bg-soft: #f4fafd;
-  --color-surface-card: #ffffff;
-}
-
-/* Preserve theme-scoped overrides for code that expects a theme selector */
-html[data-theme="nami"],
-.theme {
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-headline: "Quicksand", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
-
-  --color-primary: #2d685c;
-  --color-primary-container: #b4f1e1;
-  --color-on-primary-container: #357063;
-  --color-secondary: #884d54;
-  --color-secondary-container: #feb2b9;
-  --color-on-secondary-container: #7a4248;
-  --color-tertiary: #635787;
-  --color-tertiary-container: #eae0ff;
   --color-on-tertiary-container: #6b5e8f;
 
   --color-charcoal: #2d3436;

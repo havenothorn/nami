@@ -87,24 +87,24 @@ function AboutPage() {
 
   const facts = [
     {
-      title: "first",
+      title: "Who I am",
       detail:
         "Front-end Engineer & Writer (not professional just my hobby) Actively writing essays, tutorials, and code snippets about React, TypeScript, and web development.",
       color: "bg-secondary-container",
     },
     {
-      title: "second",
-      detail: "second",
+      title: "Currently",
+      detail: "TODO: 지금 배우고 있거나 몰두하고 있는 것을 적어주세요.",
       color: "bg-primary-container",
     },
     {
-      title: "third",
-      detail: "third",
+      title: "Favorite stack",
+      detail: "TODO: 즐겨 쓰는 도구/라이브러리와 그 이유를 적어주세요.",
       color: "bg-tertiary-container",
     },
     {
-      title: "fourth",
-      detail: "fourth",
+      title: "Fun fact",
+      detail: "TODO: 가벼운 개인적인 이야기를 하나 적어주세요.",
       color: "bg-emerald-100",
     },
   ];
@@ -147,10 +147,10 @@ function AboutPage() {
             <span className="italic text-secondary">글쓰기 인간</span>
           </h1>
           <p className="font-sans text-sm md:text-base text-charcoal/80 leading-relaxed">
-            소개글
+            TODO: 자기소개를 작성하세요 — 어떤 일을 하는지, 왜 이 블로그를 쓰는지.
           </p>
           <p className="font-sans text-sm md:text-base text-charcoal/80 leading-relaxed">
-            소개글
+            TODO: 관심 분야나 최근 몰두하고 있는 주제를 덧붙여보세요.
           </p>
         </div>
       </section>

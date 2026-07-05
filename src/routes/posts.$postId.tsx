@@ -6,6 +6,7 @@
 import { createRoute, Link } from "@tanstack/react-router";
 import { Route as rootRoute } from "./__root";
 import { mockPosts } from "../data";
+import { NotFound } from "../NotFound";
 import {
   ArrowLeft,
   Clock,
@@ -17,10 +18,8 @@ import {
   CornerDownRight,
   Sparkles,
   BookOpen,
-  Send,
-  AlertTriangle,
 } from "lucide-react";
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect } from "react";
 import type { Post } from "../types";
 
 export const Route = createRoute({
@@ -37,54 +36,24 @@ function PostDetailPage() {
 
   // States
   const [copied, setCopied] = useState(false);
-  const [likesCount, setLikesCount] = useState(42);
+  const [shareCopied, setShareCopied] = useState(false);
+  const [likesCount, setLikesCount] = useState(0);
   const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
-  const [commentInput, setCommentInput] = useState("");
-  const [comments, setComments] = useState<
-    Array<{ name: string; text: string; date: string }>
-  >([
-    {
-      name: "Chloe Miller",
-      text: "This represents exactly what I needed this morning. Code needs much more empathy indeed! Thanks, Nami.",
-      date: "3 hours ago",
-    },
-    {
-      name: "Hasan Patel",
-      text: "The calculator.js visual code example is pristine. Absolute joy to read and study.",
-      date: "1 day ago",
-    },
-  ]);
 
-  // Reset likes count on load/change
+  // Reset local reaction state when navigating between posts
   useEffect(() => {
-    // Generate deterministic seed based on postId for demo variance
-    const detSeed = postId.charCodeAt(0) + (postId.charCodeAt(1) || 0);
-    setLikesCount((detSeed % 50) + 20);
+    setLikesCount(0);
     setLiked(false);
     setBookmarked(false);
   }, [postId]);
 
   if (!post) {
     return (
-      <div className="text-center py-16 space-y-6 max-w-md mx-auto">
-        <div className="inline-flex p-4 bg-secondary-container text-secondary rounded-full border-2 border-charcoal">
-          <AlertTriangle className="w-10 h-10 animate-bounce" />
-        </div>
-        <h1 className="font-headline text-3xl font-black text-charcoal">
-          Post Not Found!
-        </h1>
-        <p className="font-sans text-sm text-charcoal/70">
-          Oops! The post you're looking for can't be found or has been moved.
-        </p>
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary text-white border-2 border-charcoal rounded-lg font-headline font-bold hover:bg-primary/95 transition-all outline-none"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Home
-        </Link>
-      </div>
+      <NotFound
+        title="Post Not Found!"
+        message="Oops! The post you're looking for can't be found or has been moved."
+      />
     );
   }
 
@@ -107,29 +76,11 @@ function PostDetailPage() {
     setLiked(!liked);
   };
 
-  // Handle social share mock action
+  // Handle share link copying
   const handleShareClick = () => {
-    const shareUrl = window.location.href;
-    navigator.clipboard.writeText(shareUrl);
-    alert(
-      `Copied article URL to clipboard:\n${shareUrl}\n\nGo share the cozy bytes!`,
-    );
-  };
-
-  // Handle Comment submissions
-  const handleCommentSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (commentInput.trim()) {
-      setComments((prev) => [
-        {
-          name: "Anonymous Reader",
-          text: commentInput.trim(),
-          date: "Just now",
-        },
-        ...prev,
-      ]);
-      setCommentInput("");
-    }
+    navigator.clipboard.writeText(window.location.href);
+    setShareCopied(true);
+    setTimeout(() => setShareCopied(false), 2000);
   };
 
   // Fetch Recommended posts
@@ -282,58 +233,15 @@ function PostDetailPage() {
 
               <button
                 onClick={handleShareClick}
-                className="p-2 border-2 border-charcoal rounded-lg text-sm bg-white hover:bg-bg-soft transition-all cursor-pointer"
+                className="flex items-center gap-1.5 p-2 border-2 border-charcoal rounded-lg text-sm bg-white hover:bg-bg-soft transition-all cursor-pointer"
                 title="Copy share link"
               >
-                <Share2 className="w-4 h-4" />
+                {shareCopied ? (
+                  <Check className="w-4 h-4 text-primary" />
+                ) : (
+                  <Share2 className="w-4 h-4" />
+                )}
               </button>
-            </div>
-          </div>
-
-          {/* Community Comment Section */}
-          <div className="pt-6 border-t-2 border-charcoal/10 space-y-6">
-            <h3 className="font-headline font-bold text-xl text-charcoal">
-              Comments ({comments.length})
-            </h3>
-
-            {/* New Comment Form */}
-            <form onSubmit={handleCommentSubmit} className="space-y-3">
-              <textarea
-                placeholder="Write a thoughtful comment or a technical question..."
-                required
-                value={commentInput}
-                onChange={(e) => setCommentInput(e.target.value)}
-                className="w-full bg-bg-soft border-2 border-charcoal/40 rounded-xl p-3 text-charcoal font-sans text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder-charcoal/50 min-h-[80px]"
-              />
-              <button
-                type="submit"
-                className="bg-primary text-white font-headline font-bold px-4 py-2 border-2 border-charcoal rounded-lg hover:translate-y-[-1px] shadow-[2px_2px_0px_0px_#2d3436] transition-transform flex items-center gap-1.5 cursor-pointer text-sm"
-              >
-                <span>Post Comment</span>
-                <Send className="w-3.5 h-3.5" />
-              </button>
-            </form>
-
-            {/* Existing Comments listing */}
-            <div className="space-y-4">
-              {comments.map((cmt, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 bg-bg-soft/40 border-2 border-charcoal/15 rounded-xl space-y-1"
-                >
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="font-headline font-black text-charcoal">
-                      {cmt.name}
-                    </span>
-                    <span className="font-sans text-charcoal/40">
-                      {cmt.date}
-                    </span>
-                  </div>
-                  <p className="font-sans text-sm text-charcoal/80 leading-relaxed">
-                    {cmt.text}
-                  </p>
-                </div>
-              ))}
             </div>
           </div>
         </article>
@@ -391,8 +299,17 @@ function PostDetailPage() {
               onClick={handleShareClick}
               className="w-full flex items-center justify-center gap-1 px-3 py-2 bg-bg-soft border-2 border-charcoal rounded-lg font-headline font-bold text-xs hover:bg-secondary-container hover:text-on-secondary-container transition-colors cursor-pointer"
             >
-              <Share2 className="w-3.5 h-3.5" />
-              Copy Share Link
+              {shareCopied ? (
+                <>
+                  <Check className="w-3.5 h-3.5" />
+                  Link Copied!
+                </>
+              ) : (
+                <>
+                  <Share2 className="w-3.5 h-3.5" />
+                  Copy Share Link
+                </>
+              )}
             </button>
           </div>
         </aside>
@@ -420,8 +337,8 @@ function PostDetailPage() {
                   </div>
                   <h3 className="font-headline font-bold text-lg text-charcoal group-hover:text-primary transition-colors">
                     <Link
-                      to={"/posts/$postId" as any}
-                      params={{ postId: recPost.id } as any}
+                      to="/posts/$postId"
+                      params={{ postId: recPost.id }}
                     >
                       {recPost.title}
                     </Link>
@@ -436,8 +353,8 @@ function PostDetailPage() {
                     Published on {recPost.date}
                   </span>
                   <Link
-                    to={"/posts/$postId" as any}
-                    params={{ postId: recPost.id } as any}
+                    to="/posts/$postId"
+                    params={{ postId: recPost.id }}
                     className="text-xs font-headline font-bold text-primary flex items-center gap-1 group-hover:underline"
                   >
                     <span>Read post</span>
