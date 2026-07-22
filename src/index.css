@@ -2,7 +2,7 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-:root {
+@theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-headline: "Jost", ui-sans-serif, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
@@ -31,68 +31,11 @@
   background: #23262a;
 }
 
-/* Fallback utility mappings for CSS-variable-based theme tokens
-   These mirror the project's semantic token names (used as Tailwind-like
-   utility classes) and map them to the --color- variables defined above.
-   This ensures classes like `bg-primary-container` or `text-on-primary-container`
-   work even if Tailwind doesn't generate them. */
-
-.bg-primary {
-  background-color: var(--color-primary);
-}
-.bg-primary-container {
-  background-color: var(--color-primary-container);
-}
-.text-on-primary-container {
-  color: var(--color-on-primary-container);
-}
-.text-primary {
-  color: var(--color-primary);
-}
-
-.bg-bg-soft {
-  background-color: var(--color-bg-soft);
-}
-.bg-surface-card {
-  background-color: var(--color-surface-card);
-}
-.text-on-surface-card {
-  color: var(--color-charcoal);
-}
-
-.border-charcoal {
-  border-color: var(--color-charcoal);
-}
-.text-charcoal {
-  color: var(--color-charcoal);
-}
-
-.bg-charcoal {
-  background-color: var(--color-charcoal);
-}
+/* Not part of the theme palette: on-charcoal text is always white,
+   so it can't be derived from a --color- variable via @theme. */
 .text-on-charcoal {
   color: #ffffff;
 }
-
-.border-primary {
-  border-color: var(--color-primary);
-}
-.border-primary-container {
-  border-color: var(--color-primary-container);
-}
-.border-bg-soft {
-  border-color: var(--color-bg-soft);
-}
-.border-surface-card {
-  border-color: var(--color-surface-card);
-}
-
-.font-sans {
-  font-family: var(--font-sans);
-}
-.font-headline {
-  font-family: var(--font-headline);
-}
-.font-mono {
-  font-family: var(--font-mono);
+.text-on-surface-card {
+  color: var(--color-charcoal);
 }
