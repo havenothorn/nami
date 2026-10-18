@@ -11,7 +11,7 @@ readTime: "1 min read"
 imageUrl: ""
 author:
   name: "Nami"
-  avatarUrl: "/assets/profile.jpg"
+  avatarUrl: ""
   role: "Author"
 engagementScore: "0%"
 recommendedPostIds: []

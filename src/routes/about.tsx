@@ -6,6 +6,7 @@
 import { createRoute } from "@tanstack/react-router";
 import { Route as rootRoute } from "./__root";
 import type { ReactNode } from "react";
+import avatar from "../assets/profile.jpg";
 
 export const Route = createRoute({
   getParentRoute: () => rootRoute,
@@ -115,7 +116,7 @@ function AboutPage() {
       <section className="flex flex-col md:flex-row gap-8 md:items-center">
         <div className="w-[140px] h-[180px] shrink-0 overflow-hidden bg-primary-container/40">
           <img
-            src="/assets/profile.jpg"
+            src={avatar}
             alt="Nami"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover"

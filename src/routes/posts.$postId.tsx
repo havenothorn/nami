@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import type { Post } from "../types";
+import defaultAvatar from "../assets/profile.jpg";
 
 export const Route = createRoute({
   getParentRoute: () => rootRoute,
@@ -114,7 +115,7 @@ function PostDetailPage() {
 
           <div className="flex items-center gap-3 pt-1">
             <img
-              src={post.author.avatarUrl}
+            src={post.author.avatarUrl || defaultAvatar}
               alt={post.author.name}
               referrerPolicy="no-referrer"
               className="w-9 h-9 rounded-full object-cover"
