@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "namis-log-3b0d8",
     "public": "dist",
     "ignore": [
       "firebase.json",
