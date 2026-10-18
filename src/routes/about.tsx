@@ -119,6 +119,10 @@ function AboutPage() {
             src={avatar}
             alt="Nami"
             referrerPolicy="no-referrer"
+            loading="lazy"
+            decoding="async"
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover"
           />
         </div>

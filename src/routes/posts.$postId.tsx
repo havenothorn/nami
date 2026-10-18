@@ -118,6 +118,8 @@ function PostDetailPage() {
             src={post.author.avatarUrl || defaultAvatar}
               alt={post.author.name}
               referrerPolicy="no-referrer"
+              loading="lazy"
+              decoding="async"
               className="w-9 h-9 rounded-full object-cover"
             />
             <div className="text-sm">
@@ -134,6 +136,8 @@ function PostDetailPage() {
               src={post.imageUrl}
               alt={post.title}
               referrerPolicy="no-referrer"
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover grayscale-[15%]"
             />
           </div>
