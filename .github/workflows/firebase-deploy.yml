@@ -43,7 +43,11 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          project_id: namis-log-3b0d8
+
       - name: Deploy to Firebase Hosting
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: npx --yes firebase-tools deploy --only hosting --project namis-log-3b0d8 --token "$FIREBASE_TOKEN"
+        run: npx --yes firebase-tools deploy --only hosting --project namis-log-3b0d8
