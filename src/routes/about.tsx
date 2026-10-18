@@ -115,7 +115,7 @@ function AboutPage() {
       <section className="flex flex-col md:flex-row gap-8 md:items-center">
         <div className="w-[140px] h-[180px] shrink-0 overflow-hidden bg-primary-container/40">
           <img
-            src="/assets/profile-DO1W3Kiz.png"
+            src="/assets/profile.jpg"
             alt="Nami"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover"
