@@ -23,7 +23,9 @@ function RootLayout() {
   }, [isDark]);
 
   return (
-    <div className={`${isDark ? "dark" : ""} min-h-screen flex flex-col bg-bg-soft text-charcoal font-sans selection:bg-primary-container selection:text-primary transition-colors duration-200`}>
+    <div
+      className={`${isDark ? "dark" : ""} min-h-screen flex flex-col bg-bg-soft text-charcoal font-sans selection:bg-primary-container selection:text-primary transition-colors duration-200`}
+    >
       {/* Sticky Navigation Header */}
       <header className="sticky top-0 z-50 bg-surface-card border-b border-charcoal/10">
         <div className="max-w-[1100px] mx-auto px-6 py-5 flex justify-between items-center">
@@ -44,7 +46,7 @@ function RootLayout() {
               inactiveProps={{
                 className: "text-charcoal/50 hover:text-primary",
               }}
-              className="font-headline text-sm tracking-wide pb-1 transition-colors"
+              className="font-headline text-md tracking-wide pb-1 transition-colors"
               activeOptions={{ exact: true }}
             >
               Articles
@@ -57,7 +59,7 @@ function RootLayout() {
               inactiveProps={{
                 className: "text-charcoal/50 hover:text-primary",
               }}
-              className="font-headline text-sm tracking-wide pb-1 transition-colors"
+              className="font-headline text-md tracking-wide pb-1 transition-colors"
             >
               Explore
             </Link>
@@ -69,7 +71,7 @@ function RootLayout() {
               inactiveProps={{
                 className: "text-charcoal/50 hover:text-primary",
               }}
-              className="font-headline text-sm tracking-wide pb-1 transition-colors"
+              className="font-headline text-md tracking-wide pb-1 transition-colors"
             >
               About
             </Link>
@@ -88,7 +90,9 @@ function RootLayout() {
               type="button"
               onClick={() => setIsDark((current) => !current)}
               className="p-2 text-charcoal/60 hover:text-primary transition-colors cursor-pointer"
-              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              aria-label={
+                isDark ? "Switch to light mode" : "Switch to dark mode"
+              }
               title={isDark ? "Switch to light mode" : "Switch to dark mode"}
             >
               {isDark ? (
