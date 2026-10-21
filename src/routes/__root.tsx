@@ -24,6 +24,7 @@ function RootLayout() {
 
   return (
     <div
+      id="site-root"
       className={`${isDark ? "dark" : ""} min-h-screen flex flex-col bg-bg-soft text-charcoal font-sans selection:bg-primary-container selection:text-primary transition-colors duration-200`}
     >
       {/* Sticky Navigation Header */}

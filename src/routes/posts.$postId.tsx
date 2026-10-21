@@ -13,10 +13,8 @@ import {
   Share2,
   Clipboard,
   Check,
-  Heart,
-  Bookmark,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { Post, PostLanguage } from "../types";
 import defaultAvatar from "../assets/profile.jpg";
 
@@ -36,16 +34,12 @@ function PostDetailPage() {
   // States
   const [copied, setCopied] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
-  const [likesCount, setLikesCount] = useState(0);
-  const [liked, setLiked] = useState(false);
-  const [bookmarked, setBookmarked] = useState(false);
   const [language, setLanguage] = useState<PostLanguage>("en");
 
-  // Reset local reaction state when navigating between posts
+  // Reset transient copy feedback when navigating between posts
   useEffect(() => {
-    setLikesCount(0);
-    setLiked(false);
-    setBookmarked(false);
+    setCopied(false);
+    setShareCopied(false);
   }, [postId]);
 
   if (!post) {
@@ -72,16 +66,6 @@ function PostDetailPage() {
     setTimeout(() => {
       setCopied(false);
     }, 2000);
-  };
-
-  // Handle Likes
-  const handleLikeClick = () => {
-    if (liked) {
-      setLikesCount((prev) => prev - 1);
-    } else {
-      setLikesCount((prev) => prev + 1);
-    }
-    setLiked(!liked);
   };
 
   // Handle share link copying
@@ -232,30 +216,8 @@ function PostDetailPage() {
           ))}
         </div>
 
-        {/* Reactions */}
-        <div className="flex items-center gap-6 pt-6 border-t border-charcoal/10 text-sm text-charcoal/50">
-          <button
-            onClick={handleLikeClick}
-            className="flex items-center gap-1.5 hover:text-primary transition-colors cursor-pointer"
-          >
-            <Heart
-              className={`w-4 h-4 ${liked ? "fill-primary text-primary" : ""}`}
-              strokeWidth={1.5}
-            />
-            <span>{likesCount}</span>
-          </button>
-
-          <button
-            onClick={() => setBookmarked(!bookmarked)}
-            className="flex items-center gap-1.5 hover:text-primary transition-colors cursor-pointer"
-            title={bookmarked ? "Saved" : "Bookmark"}
-          >
-            <Bookmark
-              className={`w-4 h-4 ${bookmarked ? "fill-primary text-primary" : ""}`}
-              strokeWidth={1.5}
-            />
-          </button>
-
+        {/* Share */}
+        <div className="flex items-center pt-6 border-t border-charcoal/10 text-sm text-charcoal/50">
           <button
             onClick={handleShareClick}
             className="flex items-center gap-1.5 hover:text-primary transition-colors cursor-pointer"
@@ -272,6 +234,8 @@ function PostDetailPage() {
           </button>
         </div>
       </article>
+
+      <GiscusComments />
 
       {/* Recommended posts */}
       {recommendedPosts.length > 0 && (
@@ -304,5 +268,58 @@ function PostDetailPage() {
         </section>
       )}
     </div>
+  );
+}
+
+function GiscusComments() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    const root = document.getElementById("site-root");
+    if (!root) return;
+
+    const updateTheme = () => {
+      setTheme(root.classList.contains("dark") ? "dark" : "light");
+    };
+    updateTheme();
+
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.async = true;
+    script.crossOrigin = "anonymous";
+    script.dataset.repo = "havenothorn/myDashboard";
+    script.dataset.repoId = "R_kgDOKKW_hg";
+    script.dataset.category = "General";
+    script.dataset.categoryId = "DIC_kwDOKKW_hs4DJQL6";
+    script.dataset.mapping = "pathname";
+    script.dataset.strict = "0";
+    script.dataset.reactionsEnabled = "1";
+    script.dataset.emitMetadata = "0";
+    script.dataset.inputPosition = "top";
+    script.dataset.theme = theme;
+    script.dataset.lang = "en";
+    script.dataset.loading = "lazy";
+
+    container.replaceChildren(script);
+    return () => container.replaceChildren();
+  }, [theme]);
+
+  return (
+    <section className="border-t border-charcoal/10 pt-8 space-y-5">
+      <h2 className="font-headline text-sm uppercase tracking-[0.2em] text-charcoal/40">
+        Comments &amp; reactions
+      </h2>
+      <div ref={containerRef} />
+    </section>
   );
 }
