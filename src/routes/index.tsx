@@ -87,7 +87,9 @@ function HomePage() {
             <Eye className="h-3 w-3" strokeWidth={1.5} />
             {visitorsUnavailable
               ? "Visits unavailable"
-              : `${(totalVisitors ?? 0).toLocaleString()} total visitors · ${(dailyVisitors ?? 0).toLocaleString()} today`}
+              : totalVisitors === null || dailyVisitors === null
+                ? "Loading visitor counts…"
+                : `${totalVisitors.toLocaleString()} total visitors · ${dailyVisitors.toLocaleString()} today`}
           </span>
         </div>
       </motion.section>
