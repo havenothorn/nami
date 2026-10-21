@@ -3,15 +3,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import {
+  createRootRoute,
+  Link,
+  Outlet,
+} from "@tanstack/react-router";
 import { Search, Share2, Check, Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { database } from "../firebase";
+import { ref, runTransaction } from "firebase/database";
 
 export const Route = createRootRoute({
   component: RootLayout,
 });
 
 function RootLayout() {
+  const countedDate = useRef<string | null>(null);
   const [isDark, setIsDark] = useState(
     () =>
       typeof window !== "undefined" &&
@@ -21,6 +28,42 @@ function RootLayout() {
   useEffect(() => {
     window.localStorage.setItem("theme", isDark ? "dark" : "light");
   }, [isDark]);
+
+  useEffect(() => {
+    const dailyStorageKey = "nami-daily-visitor-counted";
+    const totalStorageKey = "nami-total-visitor-counted";
+    const recordVisitors = () => {
+      const now = new Date();
+      const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+      const shouldCountDaily =
+        countedDate.current !== today &&
+        window.localStorage.getItem(dailyStorageKey) !== today;
+      const shouldCountTotal = !window.localStorage.getItem(totalStorageKey);
+
+      if (shouldCountDaily) {
+        countedDate.current = today;
+        window.localStorage.setItem(dailyStorageKey, today);
+        void incrementVisitorCounter(
+          `dailyUniqueVisitors/${today}`,
+          dailyStorageKey,
+          today,
+        );
+      }
+
+      if (shouldCountTotal) {
+        window.localStorage.setItem(totalStorageKey, "true");
+        void incrementVisitorCounter(
+          "totalUniqueVisitors",
+          totalStorageKey,
+          "true",
+        );
+      }
+    };
+
+    recordVisitors();
+    const intervalId = window.setInterval(recordVisitors, 60_000);
+    return () => window.clearInterval(intervalId);
+  }, []);
 
   return (
     <div
@@ -135,6 +178,24 @@ function RootLayout() {
       </footer>
     </div>
   );
+}
+
+function incrementVisitorCounter(path: string, storageKey: string, marker: string) {
+  void runTransaction(ref(database, path), (count) => {
+    if (count !== null && typeof count !== "number") return;
+    return (count ?? 0) + 1;
+  })
+    .then((result) => {
+      if (!result.committed) {
+        throw new Error(`Realtime Database rejected counter update: ${path}`);
+      }
+    })
+    .catch((error: unknown) => {
+      if (window.localStorage.getItem(storageKey) === marker) {
+        window.localStorage.removeItem(storageKey);
+      }
+      console.error("Failed to record visitor:", error);
+    });
 }
 
 function ShareButton() {

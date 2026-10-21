@@ -10,6 +10,7 @@ import { NotFound } from "../NotFound";
 import {
   ArrowLeft,
   Clock,
+  Eye,
   Share2,
   Clipboard,
   Check,
@@ -17,6 +18,8 @@ import {
 import { useState, useEffect, useRef } from "react";
 import type { Post, PostLanguage } from "../types";
 import defaultAvatar from "../assets/profile.jpg";
+import { database } from "../firebase";
+import { onValue, ref, runTransaction } from "firebase/database";
 
 export const Route = createRoute({
   getParentRoute: () => rootRoute,
@@ -35,11 +38,51 @@ function PostDetailPage() {
   const [copied, setCopied] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
   const [language, setLanguage] = useState<PostLanguage>("en");
+  const [viewCount, setViewCount] = useState<number | null>(null);
+  const [viewsUnavailable, setViewsUnavailable] = useState(false);
+  const countedPostId = useRef<string | null>(null);
 
   // Reset transient copy feedback when navigating between posts
   useEffect(() => {
     setCopied(false);
     setShareCopied(false);
+  }, [postId]);
+
+  useEffect(() => {
+    const viewsRef = ref(database, `postViews/${postId}`);
+    let active = true;
+    setViewCount(null);
+    setViewsUnavailable(false);
+
+    const unsubscribe = onValue(
+      viewsRef,
+      (snapshot) => {
+        if (active) {
+          setViewsUnavailable(false);
+          setViewCount(snapshot.exists() ? snapshot.val() as number : 0);
+        }
+      },
+      () => {
+        if (active) setViewsUnavailable(true);
+      },
+    );
+
+    if (countedPostId.current !== postId) {
+      countedPostId.current = postId;
+      void runTransaction(viewsRef, (currentViews) => {
+        if (currentViews !== null && typeof currentViews !== "number") {
+          return;
+        }
+        return (currentViews ?? 0) + 1;
+      }).catch(() => {
+        if (active) setViewsUnavailable(true);
+      });
+    }
+
+    return () => {
+      active = false;
+      unsubscribe();
+    };
   }, [postId]);
 
   if (!post) {
@@ -97,6 +140,13 @@ function PostDetailPage() {
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 text-xs font-mono uppercase tracking-wider text-charcoal/40">
               <span>{post.category}</span>
+              <span>·</span>
+              <span className="flex items-center gap-1">
+                <Eye className="w-3 h-3" strokeWidth={1.5} />
+                {viewsUnavailable
+                  ? "Views unavailable"
+                  : `${(viewCount ?? 0).toLocaleString()} views`}
+              </span>
               <span>·</span>
               <span className="flex items-center gap-1">
                 <Clock className="w-3 h-3" strokeWidth={1.5} />

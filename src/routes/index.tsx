@@ -6,9 +6,12 @@
 import { createRoute, Link } from "@tanstack/react-router";
 import { Route as rootRoute } from "./__root";
 import { mockPosts } from "../data";
-import { Clock, ArrowRight } from "lucide-react";
+import { Clock, ArrowRight, Eye } from "lucide-react";
 import type { Post } from "../types";
 import { motion } from "motion/react";
+import { useEffect, useState } from "react";
+import { database } from "../firebase";
+import { onValue, ref } from "firebase/database";
 
 export const Route = createRoute({
   getParentRoute: () => rootRoute,
@@ -17,6 +20,38 @@ export const Route = createRoute({
 });
 
 function HomePage() {
+  const [today] = useState(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  });
+  const [dailyVisitors, setDailyVisitors] = useState<number | null>(null);
+  const [totalVisitors, setTotalVisitors] = useState<number | null>(null);
+  const [visitorsUnavailable, setVisitorsUnavailable] = useState(false);
+
+  useEffect(() => {
+    const unsubscribeDaily = onValue(
+      ref(database, `dailyUniqueVisitors/${today}`),
+      (snapshot) => {
+        setDailyVisitors(snapshot.exists() ? (snapshot.val() as number) : 0);
+        setVisitorsUnavailable(false);
+      },
+      () => setVisitorsUnavailable(true),
+    );
+    const unsubscribeTotal = onValue(
+      ref(database, "totalUniqueVisitors"),
+      (snapshot) => {
+        setTotalVisitors(snapshot.exists() ? (snapshot.val() as number) : 0);
+        setVisitorsUnavailable(false);
+      },
+      () => setVisitorsUnavailable(true),
+    );
+
+    return () => {
+      unsubscribeDaily();
+      unsubscribeTotal();
+    };
+  }, [today]);
+
   // Featured post is "whimsy-components" (latest published)
   const featuredPost =
     mockPosts.find((p: Post) => p.id === "whimsy-components") || mockPosts[0];
@@ -45,9 +80,16 @@ function HomePage() {
           This is a small log where I write about frontend development, the
           films I watch, and everyday things worth writing down.
         </p>
-        <p className="font-mono text-xs text-charcoal/40">
-          {mockPosts.length} posts published
-        </p>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-charcoal/40">
+          <span>{mockPosts.length} posts published</span>
+          <span aria-hidden="true">·</span>
+          <span className="inline-flex items-center gap-1">
+            <Eye className="h-3 w-3" strokeWidth={1.5} />
+            {visitorsUnavailable
+              ? "Visits unavailable"
+              : `${(totalVisitors ?? 0).toLocaleString()} total visitors · ${(dailyVisitors ?? 0).toLocaleString()} today`}
+          </span>
+        </div>
       </motion.section>
 
       {/* 2. Featured Article */}

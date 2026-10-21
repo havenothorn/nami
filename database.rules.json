@@ -1,0 +1,22 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "dailyUniqueVisitors": {
+      "$date": {
+        ".read": true,
+        ".write": "$date.matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/) && newData.isNumber() && newData.val() == (data.exists() ? data.val() + 1 : 1)"
+      }
+    },
+    "totalUniqueVisitors": {
+      ".read": true,
+      ".write": "newData.isNumber() && newData.val() == (data.exists() ? data.val() + 1 : 1)"
+    },
+    "postViews": {
+      "$postId": {
+        ".read": true,
+        ".write": "newData.isNumber() && newData.val() == (data.exists() ? data.val() + 1 : 1)"
+      }
+    }
+  }
+}
