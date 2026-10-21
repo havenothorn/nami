@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..700;1,300..700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import "pretendard/dist/web/variable/pretendardvariable.css";
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
@@ -10,8 +11,8 @@
 }
 
 @theme {
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-headline: "Jost", ui-sans-serif, sans-serif;
+  --font-sans: "Plus Jakarta Sans", "Pretendard Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-headline: "Jost", "Pretendard Variable", ui-sans-serif, sans-serif;
   --font-mono: "D2Coding", monospace;
 
   --color-primary: #0047ab;
