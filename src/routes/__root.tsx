@@ -4,16 +4,26 @@
  */
 
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
-import { Search, Share2, Check } from "lucide-react";
-import { useState } from "react";
+import { Search, Share2, Check, Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export const Route = createRootRoute({
   component: RootLayout,
 });
 
 function RootLayout() {
+  const [isDark, setIsDark] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.localStorage.getItem("theme") === "dark",
+  );
+
+  useEffect(() => {
+    window.localStorage.setItem("theme", isDark ? "dark" : "light");
+  }, [isDark]);
+
   return (
-    <div className="min-h-screen flex flex-col bg-bg-soft text-charcoal font-sans selection:bg-primary-container selection:text-primary">
+    <div className={`${isDark ? "dark" : ""} min-h-screen flex flex-col bg-bg-soft text-charcoal font-sans selection:bg-primary-container selection:text-primary transition-colors duration-200`}>
       {/* Sticky Navigation Header */}
       <header className="sticky top-0 z-50 bg-surface-card border-b border-charcoal/10">
         <div className="max-w-[1100px] mx-auto px-6 py-5 flex justify-between items-center">
@@ -66,13 +76,28 @@ function RootLayout() {
           </nav>
 
           {/* Action Area */}
-          <Link
-            to="/explore"
-            className="p-2 text-charcoal/60 hover:text-primary transition-colors"
-            title="Search articles"
-          >
-            <Search className="w-[18px] h-[18px]" strokeWidth={1.5} />
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              to="/explore"
+              className="p-2 text-charcoal/60 hover:text-primary transition-colors"
+              title="Search articles"
+            >
+              <Search className="w-[18px] h-[18px]" strokeWidth={1.5} />
+            </Link>
+            <button
+              type="button"
+              onClick={() => setIsDark((current) => !current)}
+              className="p-2 text-charcoal/60 hover:text-primary transition-colors cursor-pointer"
+              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {isDark ? (
+                <Sun className="w-[18px] h-[18px]" strokeWidth={1.5} />
+              ) : (
+                <Moon className="w-[18px] h-[18px]" strokeWidth={1.5} />
+              )}
+            </button>
+          </div>
         </div>
       </header>
 

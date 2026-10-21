@@ -23,19 +23,31 @@
   --color-surface-card: #ffffff;
 }
 
+.dark {
+  color-scheme: dark;
+
+  --color-primary: #8ab4ff;
+  --color-primary-container: #26364d;
+  --color-on-primary-container: #c3d8ff;
+
+  --color-charcoal: #e5e7eb;
+  --color-bg-soft: #17191c;
+  --color-surface-card: #202327;
+}
+
 /* Smooth minimal scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #fafaf8;
+  background: var(--color-bg-soft);
 }
 ::-webkit-scrollbar-thumb {
-  background: #d6d5d0;
+  background: color-mix(in srgb, var(--color-charcoal) 20%, transparent);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #23262a;
+  background: var(--color-charcoal);
 }
 
 /* Not part of the theme palette: on-charcoal text is always white,
@@ -47,9 +59,36 @@
   color: var(--color-charcoal);
 }
 
+.dark .prose {
+  --tw-prose-body: var(--color-charcoal);
+  --tw-prose-headings: var(--color-charcoal);
+  --tw-prose-lead: var(--color-charcoal);
+  --tw-prose-links: var(--color-primary);
+  --tw-prose-bold: var(--color-charcoal);
+  --tw-prose-counters: color-mix(in srgb, var(--color-charcoal) 70%, transparent);
+  --tw-prose-bullets: color-mix(in srgb, var(--color-charcoal) 45%, transparent);
+  --tw-prose-hr: color-mix(in srgb, var(--color-charcoal) 20%, transparent);
+  --tw-prose-quotes: var(--color-charcoal);
+  --tw-prose-quote-borders: color-mix(
+    in srgb,
+    var(--color-charcoal) 25%,
+    transparent
+  );
+  --tw-prose-captions: color-mix(in srgb, var(--color-charcoal) 70%, transparent);
+  --tw-prose-code: var(--color-charcoal);
+  --tw-prose-pre-code: #f1f1ef;
+  --tw-prose-pre-bg: #1e2023;
+  --tw-prose-th-borders: color-mix(in srgb, var(--color-charcoal) 30%, transparent);
+  --tw-prose-td-borders: color-mix(in srgb, var(--color-charcoal) 20%, transparent);
+}
+
 .prose :not(pre) > code {
   border-radius: 0.25rem;
-  background-color: color-mix(in srgb, var(--color-primary) 8%, white);
+  background-color: color-mix(
+    in srgb,
+    var(--color-primary) 8%,
+    var(--color-surface-card)
+  );
   padding: 0.125rem 0.3rem;
 }
 
