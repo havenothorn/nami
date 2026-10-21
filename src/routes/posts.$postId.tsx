@@ -181,7 +181,7 @@ function PostDetailPage() {
 
         {/* Formatted body HTML contents */}
         <div
-          className="prose prose-neutral max-w-none font-sans text-lg leading-[1.85] text-charcoal/80 prose-headings:font-headline prose-headings:font-medium prose-headings:text-charcoal prose-a:text-primary prose-strong:text-charcoal"
+          className="prose prose-neutral max-w-none font-sans text-base md:text-lg leading-[1.85] text-charcoal/80 prose-headings:font-headline prose-headings:font-medium prose-headings:text-charcoal prose-a:text-primary prose-strong:text-charcoal"
           dangerouslySetInnerHTML={{ __html: translation?.content ?? post.content }}
         />
 
