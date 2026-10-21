@@ -26,6 +26,7 @@ const tools: Tool[] = [
   { name: "TanStack Router", color: "#10b981" },
   { name: "Motion", color: "#eab308" },
   { name: "Vite 8", color: "#646cff" },
+  { name: "Firebase", color: "#dd2c00" },
 ];
 
 const facts: { title: string; detail: ReactNode }[] = [
