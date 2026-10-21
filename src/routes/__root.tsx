@@ -122,12 +122,6 @@ function RootLayout() {
 
           <nav className="flex flex-wrap gap-x-8 gap-y-2 justify-center text-sm">
             <Link
-              to="/explore"
-              className="text-charcoal/50 hover:text-primary transition-colors"
-            >
-              Explore
-            </Link>
-            <Link
               to="/about"
               className="text-charcoal/50 hover:text-primary transition-colors"
             >
