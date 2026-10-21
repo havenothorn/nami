@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@kfonts/d2coding':
+        specifier: ^0.2.0
+        version: 0.2.0
       '@tanstack/react-router':
         specifier: ^1.170.45
         version: 1.170.45(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -483,6 +486,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@kfonts/d2coding@0.2.0':
+    resolution: {integrity: sha512-jKhz5i6O9IRcygKeKO2T9bOZfOigbSQkLxcf2vGssiFkB1awjSBjmE+IWxT2ArkVx4yrlFdCvc5o3tArViEOdA==}
 
   '@oxc-project/types@0.154.0':
     resolution: {integrity: sha512-KYOUGQFlLWR+s4QMV2Q9ko38TZm7EdO87Qm7rvZLqk/webse/cDjtyxKhg/47l0byCbs/k46LT8qc4PKjAikzA==}
@@ -1728,6 +1734,8 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
+
+  '@kfonts/d2coding@0.2.0': {}
 
   '@oxc-project/types@0.154.0': {}
 

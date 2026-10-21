@@ -1,11 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..700;1,300..700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..700;1,300..700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+@font-face {
+  font-family: "D2Coding";
+  src: url("@kfonts/d2coding/D2Coding.woff2") format("woff2");
+  font-display: swap;
+  font-weight: 400;
+}
 
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-headline: "Jost", ui-sans-serif, sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --font-mono: "D2Coding", monospace;
 
   --color-primary: #0047ab;
   --color-primary-container: #e3ebf9;
@@ -38,4 +45,15 @@
 }
 .text-on-surface-card {
   color: var(--color-charcoal);
+}
+
+.prose :not(pre) > code {
+  border-radius: 0.25rem;
+  background-color: color-mix(in srgb, var(--color-primary) 8%, white);
+  padding: 0.125rem 0.3rem;
+}
+
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none;
 }

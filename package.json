@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@kfonts/d2coding": "^0.2.0",
     "@tanstack/react-router": "^1.170.45",
     "dompurify": "^3.4.17",
     "firebase": "^13.0.0",
