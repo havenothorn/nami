@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { createRoute, Link } from "@tanstack/react-router";
+import { createRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Route as rootRoute } from "./__root";
 import { mockPosts } from "../data";
 import { NotFound } from "../NotFound";
@@ -28,6 +28,7 @@ export const Route = createRoute({
 
 function PostDetailPage() {
   const { postId } = Route.useParams();
+  const navigate = useNavigate();
 
   // Find current post by postId
   const post = mockPosts.find((p: Post) => p.id === postId);
@@ -145,7 +146,7 @@ function PostDetailPage() {
 
         {/* Formatted body HTML contents */}
         <div
-          className="prose prose-neutral max-w-none font-sans text-base leading-relaxed text-charcoal/80 prose-headings:font-headline prose-headings:font-medium prose-headings:text-charcoal prose-a:text-primary prose-strong:text-charcoal"
+          className="prose prose-neutral max-w-none font-sans text-lg leading-[1.85] text-charcoal/80 prose-headings:font-headline prose-headings:font-medium prose-headings:text-charcoal prose-a:text-primary prose-strong:text-charcoal"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
@@ -183,12 +184,16 @@ function PostDetailPage() {
         {/* Tags */}
         <div className="flex flex-wrap gap-2 pt-2">
           {post.tags.map((tag: string) => (
-            <span
+            <button
               key={tag}
-              className="font-mono text-xs bg-primary-container text-primary px-2 py-1 rounded-sm"
+              type="button"
+              onClick={() =>
+                void navigate({ to: "/explore", search: { q: tag } })
+              }
+              className="font-mono text-sm bg-primary-container text-primary px-2.5 py-1.5 rounded-sm hover:bg-primary-container/70 transition-colors cursor-pointer"
             >
               #{tag.toLowerCase()}
-            </span>
+            </button>
           ))}
         </div>
 

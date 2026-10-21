@@ -3,16 +3,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { createRoute, Link } from "@tanstack/react-router";
+import { createRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Route as rootRoute } from "./__root";
 import { mockPosts } from "../data";
 import { PostCategory } from "../types";
 import { Search, Clock, X } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 export const Route = createRoute({
   getParentRoute: () => rootRoute,
   path: "/explore",
+  validateSearch: (search: Record<string, unknown>) => ({
+    q: typeof search.q === "string" ? search.q : "",
+  }),
   component: ExplorePage,
 });
 
@@ -24,11 +27,17 @@ const CATEGORIES: (PostCategory | "All")[] = [
 ];
 
 function ExplorePage() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const { q } = Route.useSearch();
+  const navigate = useNavigate({ from: "/explore" });
+  const [searchQuery, setSearchQuery] = useState(q);
   const [selectedCategory, setSelectedCategory] = useState<
     PostCategory | "All"
   >("All");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+
+  useEffect(() => {
+    setSearchQuery(q);
+  }, [q]);
 
   // Derive unique tags from the dataset
   const allTags = useMemo(() => {
@@ -69,6 +78,7 @@ function ExplorePage() {
     setSearchQuery("");
     setSelectedCategory("All");
     setSelectedTag(null);
+    void navigate({ search: { q: "" } });
   };
 
   const hasActiveFilters =
