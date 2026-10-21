@@ -17,7 +17,7 @@ import {
   Bookmark,
 } from "lucide-react";
 import { useState, useEffect } from "react";
-import type { Post } from "../types";
+import type { Post, PostLanguage } from "../types";
 import defaultAvatar from "../assets/profile.jpg";
 
 export const Route = createRoute({
@@ -39,6 +39,7 @@ function PostDetailPage() {
   const [likesCount, setLikesCount] = useState(0);
   const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
+  const [language, setLanguage] = useState<PostLanguage>("en");
 
   // Reset local reaction state when navigating between posts
   useEffect(() => {
@@ -55,6 +56,14 @@ function PostDetailPage() {
       />
     );
   }
+
+  const translation =
+    post.translations[language] ??
+    post.translations.en ??
+    post.translations.ko;
+  const availableLanguages = (["en", "ko"] as const).filter(
+    (option) => post.translations[option],
+  );
 
   // Handle source copying
   const handleCopyCode = (codeText: string) => {
@@ -101,17 +110,43 @@ function PostDetailPage() {
       <article className="space-y-8">
         {/* Header */}
         <header className="space-y-4">
-          <div className="flex items-center gap-3 text-xs font-mono uppercase tracking-wider text-charcoal/40">
-            <span>{post.category}</span>
-            <span>·</span>
-            <span className="flex items-center gap-1">
-              <Clock className="w-3 h-3" strokeWidth={1.5} />
-              {post.readTime}
-            </span>
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3 text-xs font-mono uppercase tracking-wider text-charcoal/40">
+              <span>{post.category}</span>
+              <span>·</span>
+              <span className="flex items-center gap-1">
+                <Clock className="w-3 h-3" strokeWidth={1.5} />
+                {translation?.readTime ?? post.readTime}
+              </span>
+            </div>
+            {availableLanguages.length > 1 && (
+              <div
+                className="inline-flex rounded-sm border border-charcoal/10 p-0.5 text-xs font-mono"
+                role="group"
+                aria-label="Article language"
+              >
+                {availableLanguages.map((option) => (
+                  <button
+                    key={option}
+                    type="button"
+                    aria-label={option === "en" ? "English" : "한국어"}
+                    aria-pressed={language === option}
+                    onClick={() => setLanguage(option)}
+                    className={`rounded-sm px-2.5 py-1 transition-colors cursor-pointer ${
+                      language === option
+                        ? "bg-primary text-white"
+                        : "text-charcoal/50 hover:text-primary"
+                    }`}
+                  >
+                    {option === "en" ? "EN" : "한국어"}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <h1 className="font-headline text-3xl md:text-4xl font-medium text-charcoal leading-tight">
-            {post.title}
+            {translation?.title ?? post.title}
           </h1>
 
           <div className="flex items-center gap-3 pt-1">
@@ -135,7 +170,7 @@ function PostDetailPage() {
           <div className="overflow-hidden bg-primary-container/30">
             <img
               src={post.imageUrl}
-              alt={post.title}
+              alt={translation?.title ?? post.title}
               referrerPolicy="no-referrer"
               loading="lazy"
               decoding="async"
@@ -147,7 +182,7 @@ function PostDetailPage() {
         {/* Formatted body HTML contents */}
         <div
           className="prose prose-neutral max-w-none font-sans text-lg leading-[1.85] text-charcoal/80 prose-headings:font-headline prose-headings:font-medium prose-headings:text-charcoal prose-a:text-primary prose-strong:text-charcoal"
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: translation?.content ?? post.content }}
         />
 
         {/* Copyable code block display */}

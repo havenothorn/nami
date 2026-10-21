@@ -1,5 +1,6 @@
 ---
 id: pnpm-lifecycle-scripts-v10-to-v12
+language: ko
 title: "pnpm v10의 breaking change는 어떻게 v11의 표준이 되었나 (v10 → v12, 2026 업데이트)"
 excerpt: "pnpm v10에서 기본 차단된 라이프사이클 스크립트 정책이 v11과 v12에서 어떻게 바뀌고 자리잡았는지 정리합니다."
 category: Engineering

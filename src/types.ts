@@ -5,6 +5,14 @@
  */
 
 export type PostCategory = string;
+export type PostLanguage = "en" | "ko";
+
+export interface PostTranslation {
+  title: string;
+  excerpt: string;
+  content: string;
+  readTime: string;
+}
 
 export interface Author {
   name: string;
@@ -32,4 +40,5 @@ export interface Post {
   codeBlock?: CodeBlockData;
   engagementScore?: string;
   recommendedPostIds: string[];
+  translations: Partial<Record<PostLanguage, PostTranslation>>;
 }
