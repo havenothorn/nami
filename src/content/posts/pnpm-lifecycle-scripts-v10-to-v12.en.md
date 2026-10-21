@@ -11,6 +11,7 @@ tags:
 date: "2026-10-21"
 readTime: "10 min read"
 imageUrl: ""
+ogImage: "/images/posts/pnpm-lifecycle-20261020-220725.png"
 author:
   name: "Nami"
   avatarUrl: ""
