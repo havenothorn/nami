@@ -13,9 +13,8 @@ import { useState, useMemo, useEffect } from "react";
 export const Route = createRoute({
   getParentRoute: () => rootRoute,
   path: "/explore",
-  validateSearch: (search: Record<string, unknown>) => ({
-    q: typeof search.q === "string" ? search.q : "",
-  }),
+  validateSearch: (search: Record<string, unknown>) =>
+    typeof search.q === "string" ? { q: search.q } : {},
   component: ExplorePage,
 });
 
@@ -29,14 +28,14 @@ const CATEGORIES: (PostCategory | "All")[] = [
 function ExplorePage() {
   const { q } = Route.useSearch();
   const navigate = useNavigate({ from: "/explore" });
-  const [searchQuery, setSearchQuery] = useState(q);
+  const [searchQuery, setSearchQuery] = useState(q ?? "");
   const [selectedCategory, setSelectedCategory] = useState<
     PostCategory | "All"
   >("All");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
   useEffect(() => {
-    setSearchQuery(q);
+    setSearchQuery(q ?? "");
   }, [q]);
 
   // Derive unique tags from the dataset
